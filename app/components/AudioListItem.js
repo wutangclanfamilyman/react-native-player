@@ -68,6 +68,7 @@ const width = Dimensions.get('window').width
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: 10,
         flexDirection: 'row',
         alignSelf: 'center',
         width: width - 80,

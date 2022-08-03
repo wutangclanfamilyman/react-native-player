@@ -13,10 +13,14 @@ const AudioProvider = ({children}) => {
 
     const [playbackObj, setPlaybackObj] = React.useState(null)
     const [soundObj, setSoundObj] = React.useState(null)
-    const [currentAudio, setCurrentAudio] = React.useState(null)
+    const [currentAudio, setCurrentAudio] = React.useState({})
 
     const [isPlaying, setIsPlaying] = React.useState(false);
     const [currentAudioIndex, setCurrentAudioIndex] = React.useState(null) 
+    const [totalCount, setTotalCount] = React.useState(0);
+
+    const [playbackPosition, setPlaybackPosition] = React.useState(null);
+    const [playbackDuration, setPlaybackDuration] = React.useState(null);
 
     const getAudioFiles = async () => {
 
@@ -30,7 +34,7 @@ const AudioProvider = ({children}) => {
         })
 
         setAudioFiles(media.assets);
-        console.log('SET');
+        setTotalCount(media.totalCount);
         setDataProvider(dataProvider.cloneWithRows([...audioFiles, ...media.assets]))
 
     }
@@ -91,7 +95,7 @@ const AudioProvider = ({children}) => {
     }
 
     return (
-      <AudioContext.Provider value={{audioFiles: audioFiles, dataProvider: dataProvider, isPlaying, playbackObj, currentAudio, soundObj, currentAudioIndex, setCurrentAudioIndex, setIsPlaying, setPlaybackObj, setSoundObj, setCurrentAudio}}>
+      <AudioContext.Provider value={{audioFiles: audioFiles, dataProvider: dataProvider, totalCount, isPlaying, playbackObj, currentAudio, soundObj, currentAudioIndex, playbackPosition, playbackDuration, setPlaybackDuration, setPlaybackPosition, setCurrentAudioIndex, setIsPlaying, setPlaybackObj, setSoundObj, setCurrentAudio}}>
         {children}
       </AudioContext.Provider>
     )

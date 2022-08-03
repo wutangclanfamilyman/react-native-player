@@ -10,7 +10,7 @@ import {pause, play, playNext, resume} from '../misc/audioController';
 
 const AudioList = () => {
 
-  const {audioFiles, dataProvider, soundObj, playbackObj, currentAudio, setCurrentAudio, setIsPlaying, setPlaybackObj, setSoundObj, isPlaying, currentAudioIndex, setCurrentAudioIndex} = React.useContext(AudioContext);
+  const {audioFiles, dataProvider, soundObj, playbackObj, currentAudio, setCurrentAudio, setIsPlaying, setPlaybackObj, setSoundObj, isPlaying, currentAudioIndex, setCurrentAudioIndex, setPlaybackPosition, setPlaybackDuration} = React.useContext(AudioContext);
 
   const [optionModalVisible, setOptionModalVisible] = React.useState(false);
   const [currentSong, setCurrentSong] = React.useState({});
@@ -28,6 +28,13 @@ const AudioList = () => {
     setOptionModalVisible(true)
   }
 
+  const onPlaybackStatusUpdate = (playbackStatus) => {
+    if(playbackStatus.isLoaded && playbackStatus.isPlaying) {
+      setPlaybackPosition(playbackStatus.positionMillis)
+      setPlaybackDuration(playbackStatus.durationMillis)
+    }
+  }
+
   const handleAudioPress = async (audio) => {
 
     // playing audio for the first time
@@ -38,11 +45,9 @@ const AudioList = () => {
       setCurrentAudio(audio);
       const _playbackObj = new Audio.Sound()
       const status = await play(_playbackObj, audio.uri);
-      
-      setPlaybackObj(_playbackObj);
+      _playbackObj.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
       setSoundObj(status)
-      
-      return;
+      return setPlaybackObj(_playbackObj);
     }
 
     // pause audio

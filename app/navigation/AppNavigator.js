@@ -8,7 +8,7 @@ import {MaterialIcons, FontAwesome5} from '@expo/vector-icons'
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
-    return <Tab.Navigator>
+    return <Tab.Navigator screenOptions={{ headerShown: false }}>
         <Tab.Screen name='AudioList' component={AudioList} options={{
             tabBarIcon: ({color, size, focused}) => <MaterialIcons name='headset' size={size} color={color} />
         }}/> 
